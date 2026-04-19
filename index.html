@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignments Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Step 1 -->
+        <div id="assignmentSection">
+            <h2>Select Assignment</h2>
+            <div id="assignmentButtons"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="setSection" class="hidden">
+            <h2>Select Set</h2>
+            <button onclick="showPDFs(1)">Set 1</button>
+            <button onclick="showPDFs(2)">Set 2</button>
+            <button onclick="showPDFs(3)">Set 3</button>
+            <br>
+            <button onclick="goBack('assignment')">⬅ Back</button>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="pdfSection" class="hidden">
+            <h2>Download PDFs</h2>
+            <div id="pdfButtons"></div>
+            <br>
+            <button onclick="goBack('set')">⬅ Back</button>
+        </div>
+
+    </div>
+
+    <script>
+        let selectedAssignment = 0;
+
+        // Create Assignment buttons (1–5)
+        const assignmentContainer = document.getElementById("assignmentButtons");
+        for (let i = 1; i <= 5; i++) {
+            let btn = document.createElement("button");
+            btn.innerText = "Assignment " + i;
+            btn.onclick = () => selectAssignment(i);
+            assignmentContainer.appendChild(btn);
+        }
+
+        function selectAssignment(num) {
+            selectedAssignment = num;
+            document.getElementById("assignmentSection").classList.add("hidden");
+            document.getElementById("setSection").classList.remove("hidden");
+        }
+
+        function showPDFs(set) {
+            document.getElementById("setSection").classList.add("hidden");
+            document.getElementById("pdfSection").classList.remove("hidden");
+
+            const pdfContainer = document.getElementById("pdfButtons");
+            pdfContainer.innerHTML = "";
+
+            for (let i = 1; i <= 2; i++) {
+                let btn = document.createElement("button");
+
+                // IMPORTANT: Change file names according to your PDFs
+                let fileName = `A${selectedAssignment}_Set${set}_Student${i}.pdf`;
+
+                btn.innerText = `Student ${i}`;
+                btn.onclick = () => window.open(fileName, "_blank");
+
+                pdfContainer.appendChild(btn);
+            }
+        }
+
+        function goBack(step) {
+            document.getElementById("assignmentSection").classList.add("hidden");
+            document.getElementById("setSection").classList.add("hidden");
+            document.getElementById("pdfSection").classList.add("hidden");
+
+            if (step === "assignment") {
+                document.getElementById("assignmentSection").classList.remove("hidden");
+            } else {
+                document.getElementById("setSection").classList.remove("hidden");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
